@@ -1,9 +1,9 @@
 {
   "name": "tools-for-cutting-videos",
   "version": "1.0.0",
-  "main": "index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "action-cutting": "node action-cutting.mjs",
+    "action-merging": "node action-merging.mjs"
   },
   "keywords": [],
   "author": "",

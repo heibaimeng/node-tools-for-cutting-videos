@@ -1,4 +1,4 @@
-import { run } from "./core.mjs";
+import { cut } from "./core/cut.mjs";
 
 const inputVideo = 'input.mp4';
 
@@ -8,4 +8,4 @@ const segments = [
   ['00:05:10', '第三段'],
 ];
 
-run(inputVideo, segments, 1);
+cut(inputVideo, segments, 1);

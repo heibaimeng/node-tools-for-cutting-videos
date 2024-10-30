@@ -1,23 +1,26 @@
 
+自用剪切视频小工具，使用 Node.js 操作 ffmpeg ，支持将大视频分割为多个视频片段、合并多个视频片段为一个视频。
+
 ## 功能介绍
 
-自用剪切视频小工具，使用 Node.js 操作 ffmpeg ，将大视频分割为多个视频片段。
+- 分割视频：只需要给出每个剪辑点的时分秒信息和对应片段标题，就会自动切割出对应多个视频。
+- 合并视频：将多个视频依次合成一个大视频。
 
-在视频平台看一些教程时，视频往往是几个小时，在评论区里发了每个片段的导航。虽然可以快速导航过去，但还是没那么方便，尤其本地保存时更难以使用。
+## 环境安装
 
-使用本工具，只需要给出每个剪辑点的时分秒信息和对应片段标题，就会自动切割出对应多个视频。
+需要 Node.js 18+ 环境，克隆项目后，安装 npm 依赖。
 
-## 使用方法
+## 分割视频
 
-1. 需要 Node.js 18+ 环境，克隆项目后安装 npm 依赖。
+进入目录，打开 `action-cutting.mjs` ，能看到可以设置的内容，进行配置：
 
-2. 进入目录，打开 `index.mjs` ，能看到可以设置的内容，进行配置：
+- 将视频文件放到 input 目录，更名为 input.mp4 ，或者更改视频文件名变量
+- 按格式填写片段数组 segments 数组
 
-- 将视频文件放过来目录，更名为 input.mp4 ，或者更名 `index.mjs` 中的文件名为视频文件名 inputVideo 变量
-- 按格式填写片段数组 segments 变量
+配置后，执行 `node action-cutting.mjs` ，生成的视频将出现在 output 目录下
 
 ```js
-import { run } from "./core.mjs";
+import { cut } from "./core/cut.mjs";
 
 const inputVideo = 'input.mp4';
 
@@ -27,14 +30,28 @@ const segments = [
   ['00:05:10', '第三段'],
 ];
 
-run(inputVideo, segments, 1);
+cut(inputVideo, segments, 1);
 ```
 
-3. 执行 `node index.mjs` ，生成的视频将出现在 output 目录下
+## 合并视频
 
-## 实现思路
+进入目录，打开 `action-merging` ，能看到可以设置的内容，进行配置：
 
-所有逻辑代码在 `core.mjs` 中。
+- 将视频文件放到 input 目录，在 inputVideos 变量按顺序写入视频文件名
+- 编写输出文件名 outputVide
 
-- 先获取视频总时长，结合计算每段片段的开始时间和持续时长
-- 为保证成功率和降低能耗，每个片段逐一调用 fluent-ffmpeg 剪切视频
+配置后，执行 `node action-merging` ，生成的视频将出现在 output 目录下
+
+```js
+import { merge } from './core/merge.mjs'
+
+const inputVideos = [
+    '1.mp4',
+    '2.mp4',
+    '3.mp4'
+];
+
+const outputVide = 'merged.mp4';
+
+merge(inputVideos, outputVide);
+```
